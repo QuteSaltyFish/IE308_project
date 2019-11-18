@@ -15,7 +15,7 @@
     "DEVICE": "cuda",
 
     "num_workers": 0,
-
+    "epoch":5,
     "lr": 1e-3,
 
     "batch_size": 5

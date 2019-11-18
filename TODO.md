@@ -8,3 +8,4 @@
 
 # Done list
 - Finish dataloader and test it.
+- Denoise Net tested, not work
