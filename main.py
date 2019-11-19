@@ -22,7 +22,7 @@ if __name__ == "__main__":
     train_loader = DataLoader.DataLoader(train_data, batch_size=config["batch_size"], shuffle = True, num_workers= config["num_workers"])
     test_loader = DataLoader.DataLoader(test_data, batch_size=1, shuffle = False, num_workers= config["num_workers"])
 
-    model = DnCNN().to(DEVICE)
+    model = DnCNN(n_channels=8).to(DEVICE)
 
     optimizer = t.optim.Adam(model.parameters())
     
