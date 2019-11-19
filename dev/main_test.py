@@ -1,5 +1,7 @@
 import argparse
-import os, time, datetime
+import os
+import time
+import datetime
 # import PIL.Image as Image
 import numpy as np
 import torch.nn as nn
@@ -11,18 +13,25 @@ from skimage.io import imread, imsave
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--set_dir', default='data/Test', type=str, help='directory of test dataset')
-    parser.add_argument('--set_names', default=['Set68', 'Set12'], help='directory of test dataset')
+    parser.add_argument('--set_dir', default='data/Test',
+                        type=str, help='directory of test dataset')
+    parser.add_argument(
+        '--set_names', default=['Set68', 'Set12'], help='directory of test dataset')
     parser.add_argument('--sigma', default=25, type=int, help='noise level')
-    parser.add_argument('--model_dir', default=os.path.join('models', 'DnCNN_sigma25'), help='directory of the model')
-    parser.add_argument('--model_name', default='model_001.pth', type=str, help='the model name')
-    parser.add_argument('--result_dir', default='results', type=str, help='directory of test dataset')
-    parser.add_argument('--save_result', default=0, type=int, help='save the denoised image, 1 or 0')
+    parser.add_argument('--model_dir', default=os.path.join('models',
+                                                            'DnCNN_sigma25'), help='directory of the model')
+    parser.add_argument('--model_name', default='model_001.pth',
+                        type=str, help='the model name')
+    parser.add_argument('--result_dir', default='results',
+                        type=str, help='directory of test dataset')
+    parser.add_argument('--save_result', default=0, type=int,
+                        help='save the denoised image, 1 or 0')
     return parser.parse_args()
 
 
 def log(*args, **kwargs):
-     print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S:"), *args, **kwargs)
+    print(datetime.datetime.now().strftime(
+        "%Y-%m-%d %H:%M:%S:"), *args, **kwargs)
 
 
 def save_result(result, path):
@@ -52,13 +61,17 @@ class DnCNN(nn.Module):
         kernel_size = 3
         padding = 1
         layers = []
-        layers.append(nn.Conv2d(in_channels=image_channels, out_channels=n_channels, kernel_size=kernel_size, padding=padding, bias=True))
+        layers.append(nn.Conv2d(in_channels=image_channels, out_channels=n_channels,
+                                kernel_size=kernel_size, padding=padding, bias=True))
         layers.append(nn.ReLU(inplace=True))
         for _ in range(depth-2):
-            layers.append(nn.Conv2d(in_channels=n_channels, out_channels=n_channels, kernel_size=kernel_size, padding=padding, bias=False))
-            layers.append(nn.BatchNorm2d(n_channels, eps=0.0001, momentum=0.95))
+            layers.append(nn.Conv2d(in_channels=n_channels, out_channels=n_channels,
+                                    kernel_size=kernel_size, padding=padding, bias=False))
+            layers.append(nn.BatchNorm2d(
+                n_channels, eps=0.0001, momentum=0.95))
             layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.Conv2d(in_channels=n_channels, out_channels=image_channels, kernel_size=kernel_size, padding=padding, bias=False))
+        layers.append(nn.Conv2d(in_channels=n_channels, out_channels=image_channels,
+                                kernel_size=kernel_size, padding=padding, bias=False))
         self.dncnn = nn.Sequential(*layers)
         self._initialize_weights()
 
@@ -122,9 +135,11 @@ if __name__ == '__main__':
         for im in os.listdir(os.path.join(args.set_dir, set_cur)):
             if im.endswith(".jpg") or im.endswith(".bmp") or im.endswith(".png"):
 
-                x = np.array(imread(os.path.join(args.set_dir, set_cur, im)), dtype=np.float32)/255.0
+                x = np.array(
+                    imread(os.path.join(args.set_dir, set_cur, im)), dtype=np.float32)/255.0
                 np.random.seed(seed=0)  # for reproducibility
-                y = x + np.random.normal(0, args.sigma/255.0, x.shape)  # Add Gaussian noise without clipping
+                # Add Gaussian noise without clipping
+                y = x + np.random.normal(0, args.sigma/255.0, x.shape)
                 y = y.astype(np.float32)
                 y_ = torch.from_numpy(y).view(1, -1, y.shape[0], y.shape[1])
 
@@ -137,14 +152,17 @@ if __name__ == '__main__':
                 x_ = x_.detach().numpy().astype(np.float32)
                 # torch.cuda.synchronize()
                 elapsed_time = time.time() - start_time
-                print('%10s : %10s : %2.4f second' % (set_cur, im, elapsed_time))
+                print('%10s : %10s : %2.4f second' %
+                      (set_cur, im, elapsed_time))
 
                 psnr_x_ = compare_psnr(x, x_)
                 ssim_x_ = compare_ssim(x, x_)
                 if args.save_result:
                     name, ext = os.path.splitext(im)
                     show(np.hstack((y, x_)))  # show the image
-                    save_result(x_, path=os.path.join(args.result_dir, set_cur, name+'_dncnn'+ext))  # save the denoised image
+                    # save the denoised image
+                    save_result(x_, path=os.path.join(
+                        args.result_dir, set_cur, name+'_dncnn'+ext))
                 psnrs.append(psnr_x_)
                 ssims.append(ssim_x_)
         psnr_avg = np.mean(psnrs)
@@ -152,5 +170,7 @@ if __name__ == '__main__':
         psnrs.append(psnr_avg)
         ssims.append(ssim_avg)
         if args.save_result:
-            save_result(np.hstack((psnrs, ssims)), path=os.path.join(args.result_dir, set_cur, 'results.txt'))
-        log('Datset: {0:10s} \n  PSNR = {1:2.2f}dB, SSIM = {2:1.4f}'.format(set_cur, psnr_avg, ssim_avg))
+            save_result(np.hstack((psnrs, ssims)), path=os.path.join(
+                args.result_dir, set_cur, 'results.txt'))
+        log('Datset: {0:10s} \n  PSNR = {1:2.2f}dB, SSIM = {2:1.4f}'.format(
+            set_cur, psnr_avg, ssim_avg))

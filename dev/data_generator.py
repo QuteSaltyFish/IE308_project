@@ -17,6 +17,7 @@ class DenoisingDataset(Dataset):
         xs (Tensor): clean image patches
         sigma: noise level, e.g., 25
     """
+
     def __init__(self, xs, sigma):
         super(DenoisingDataset, self).__init__()
         self.xs = xs
@@ -70,7 +71,8 @@ def gen_patches(file_name):
     patches = []
     for s in scales:
         h_scaled, w_scaled = int(h*s), int(w*s)
-        img_scaled = cv2.resize(img, (h_scaled, w_scaled), interpolation=cv2.INTER_CUBIC)
+        img_scaled = cv2.resize(img, (h_scaled, w_scaled),
+                                interpolation=cv2.INTER_CUBIC)
         # extract patches
         for i in range(0, h_scaled-patch_size+1, stride):
             for j in range(0, w_scaled-patch_size+1, stride):
@@ -89,19 +91,20 @@ def datagenerator(data_dir='data/Train400', verbose=False):
     # generate patches
     for i in range(len(file_list)):
         patches = gen_patches(file_list[i])
-        for patch in patches:    
+        for patch in patches:
             data.append(patch)
         if verbose:
             print(str(i+1) + '/' + str(len(file_list)) + ' is done ^_^')
     data = np.array(data, dtype='uint8')
     data = np.expand_dims(data, axis=3)
-    discard_n = len(data)-len(data)//batch_size*batch_size  # because of batch namalization
+    discard_n = len(data)-len(data)//batch_size * \
+        batch_size  # because of batch namalization
     data = np.delete(data, range(discard_n), axis=0)
     print('^_^-training data finished-^_^')
     return data
 
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
 
     data = datagenerator(data_dir='data/Train400')
 
@@ -111,4 +114,4 @@ if __name__ == '__main__':
 #    if not os.path.exists(save_dir):
 #            os.mkdir(save_dir)
 #    np.save(save_dir+'clean_patches.npy', res)
-#    print('Done.')       
+#    print('Done.')

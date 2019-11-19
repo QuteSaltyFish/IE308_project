@@ -1,6 +1,6 @@
 import json
-import torch as t 
-import torchvision as tv 
+import torch as t
+import torchvision as tv
 from torchvision import transforms
 from model import Mydataloader
 import torch.utils.data.dataloader as DataLoader
@@ -17,15 +17,17 @@ if __name__ == "__main__":
     LR = config['lr']
     EPOCH = config['epoch']
     train_data = Mydataloader.TrainingData()
-    test_data = Mydataloader.TestingData() 
+    test_data = Mydataloader.TestingData()
 
-    train_loader = DataLoader.DataLoader(train_data, batch_size=config["batch_size"], shuffle = True, num_workers= config["num_workers"])
-    test_loader = DataLoader.DataLoader(test_data, batch_size=1, shuffle = False, num_workers= config["num_workers"])
+    train_loader = DataLoader.DataLoader(
+        train_data, batch_size=config["batch_size"], shuffle=True, num_workers=config["num_workers"])
+    test_loader = DataLoader.DataLoader(
+        test_data, batch_size=1, shuffle=False, num_workers=config["num_workers"])
 
     model = DnCNN(n_channels=8).to(DEVICE)
 
     optimizer = t.optim.Adam(model.parameters())
-    
+
     criterian = t.nn.MSELoss()
 
     # Test the train_loader
@@ -41,7 +43,6 @@ if __name__ == "__main__":
             loss.backward()
             optimizer.step()
         print(loss)
-    
 
     model = model.eval()
     with t.no_grad():
@@ -51,8 +52,7 @@ if __name__ == "__main__":
             out = model(data)
             tv.transforms.ToPILImage()(out[0].squeeze().cpu()).show()
             tv.transforms.ToPILImage()(data[0].squeeze().cpu()).show()
-            print(data.shape, data.device) 
-
+            print(data.shape, data.device)
 
     model = model.eval()
     with t.no_grad():
@@ -62,5 +62,4 @@ if __name__ == "__main__":
             out = model(data)
             tv.transforms.ToPILImage()(out.squeeze().cpu()).show()
             tv.transforms.ToPILImage()(data.squeeze().cpu()).show()
-            print(data.shape, data.device) 
-            
+            print(data.shape, data.device)
