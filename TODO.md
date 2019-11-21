@@ -9,3 +9,6 @@
 # Done list
 - Finish dataloader and test it.
 - Denoise Net tested, not work
+
+# Test list
+- use unet to detect the watermark

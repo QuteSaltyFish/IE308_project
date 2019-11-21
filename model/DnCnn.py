@@ -15,11 +15,12 @@ class DnCNN(nn.Module):
     def __init__(self, depth=17, n_channels=64, image_channels=3, use_bnorm=True, kernel_size=3):
         super(DnCNN, self).__init__()
         self.config = json.load(open('config.json'))
-
+        if self.config["gray"]:
+            image_channels = 1
         kernel_size = 3
         padding = 1
         layers = []
-
+        
         layers.append(nn.Conv2d(in_channels=image_channels, out_channels=n_channels,
                                 kernel_size=kernel_size, padding=padding, bias=True))
         layers.append(nn.ReLU(inplace=True))

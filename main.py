@@ -11,7 +11,7 @@ import time
 from model.DnCnn import DnCNN
 
 if __name__ == "__main__":
-    time_start=time.time()
+    time_start = time.time()
 
     config = json.load(open("config.json"))
     os.environ["CUDA_VISIBLE_DEVICES"] = config["GPU"]
@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     model = DnCNN(n_channels=8).to(DEVICE)
     # Multi GPU setting
-    # model = t.nn.DataParallel(model,device_ids=[0,1]) 
+    # model = t.nn.DataParallel(model,device_ids=[0,1])
 
     optimizer = t.optim.Adam(model.parameters())
 
@@ -47,14 +47,15 @@ if __name__ == "__main__":
             loss.backward()
             optimizer.step()
         print(loss)
-    time_end=time.time()
-    print('totally cost',time_end-time_start)
+    time_end = time.time()
+    print('time cost', time_end-time_start)
     model = model.eval()
     with t.no_grad():
         # Test the test_loader
         for batch_idx, [data, label] in enumerate(train_loader):
             data = data.to(DEVICE)
             out = model(data)
+            out = out + data
             tv.transforms.ToPILImage()(out[0].squeeze().cpu()).show()
             tv.transforms.ToPILImage()(data[0].squeeze().cpu()).show()
             print(data.shape, data.device)

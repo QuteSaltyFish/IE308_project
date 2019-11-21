@@ -19,6 +19,7 @@ class TrainingData(t.utils.data.Dataset):
         self.label_names = os.listdir(self.label_root)
         self.DEVICE = t.device(self.config["DEVICE"])
         self.init_transform()
+        self.gray = self.config["gray"]
 
     def init_transform(self):
         """
@@ -33,7 +34,11 @@ class TrainingData(t.utils.data.Dataset):
         img = Image.open(os.path.join(self.data_root, self.data_names[index]))
         label = Image.open(os.path.join(
             self.label_root+'/'+self.label_names[index]))
+        if self.gray:
+            img = img.convert("L")
+            label = label.convert("L")
         img, label = self.transform(img), self.transform(label)
+        label = img-label
         return img, label
 
     def __len__(self):
@@ -75,3 +80,4 @@ if __name__ == "__main__":
     img = test_data[1]
     print(img.shape, img.device)
     print(len(test_data))
+    tv.transforms.ToPILImage()(label).show()
