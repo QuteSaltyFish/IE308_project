@@ -7,10 +7,12 @@ import torch.utils.data.dataloader as DataLoader
 import os
 import json
 from PIL import Image
-
+import time
 from model.DnCnn import DnCNN
 
 if __name__ == "__main__":
+    time_start=time.time()
+
     config = json.load(open("config.json"))
     os.environ["CUDA_VISIBLE_DEVICES"] = config["GPU"]
     DEVICE = t.device(config["DEVICE"])
@@ -25,6 +27,8 @@ if __name__ == "__main__":
         test_data, batch_size=1, shuffle=False, num_workers=config["num_workers"])
 
     model = DnCNN(n_channels=8).to(DEVICE)
+    # Multi GPU setting
+    # model = t.nn.DataParallel(model,device_ids=[0,1]) 
 
     optimizer = t.optim.Adam(model.parameters())
 
@@ -43,7 +47,8 @@ if __name__ == "__main__":
             loss.backward()
             optimizer.step()
         print(loss)
-
+    time_end=time.time()
+    print('totally cost',time_end-time_start)
     model = model.eval()
     with t.no_grad():
         # Test the test_loader
