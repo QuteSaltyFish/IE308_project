@@ -1,16 +1,15 @@
-import json
-import torch as t
-import torchvision as tv
-from torchvision import transforms
-from model import Mydataloader
-import torch.utils.data.dataloader as DataLoader
-import os
-import json
-from PIL import Image
-import time
-from model.DnCnn import DnCNN
-from model.func import save_model, load_model
 import argparse
+import json
+import os
+import time
+
+import torch as t
+import torch.utils.data.dataloader as DataLoader
+import torchvision as tv
+
+from model import Mydataloader
+from model.DnCnn import DnCNN
+from model.func import load_model
 
 if __name__ == "__main__":
     time_start = time.time()
@@ -20,7 +19,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--gpu", default=config["GPU"], type=str, help="choose which DEVICE U want to use")
-    parser.add_argument("--epoch", default=0, type=int, help="The epoch to be tested")
+    parser.add_argument("--epoch", default=199, type=int, help="The epoch to be tested")
     args = parser.parse_args()
 
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
