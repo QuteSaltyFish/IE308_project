@@ -2,11 +2,10 @@ import json
 import time
 
 import torch as t
-<<<<<<< HEAD
 import torch.utils.data.dataloader as DataLoader
 import torchvision as tv
 import multiprocessing
-
+import os
 from model import Mydataloader
 from model.DnCnn import DnCNN
 from model.func import save_model, eval_model_new_thread, eval_model, Sobel
@@ -19,16 +18,6 @@ if __name__ == "__main__":
     DEVICE = t.device(config["DEVICE"])
     LR = config['lr']
     EPOCH = config['epoch']
-=======
-import torchvision as tv
-import torch.utils.data.dataloader as DataLoader
-from PIL import Image
-import os
-from model import Mydataloader
-from model.DnCnn import DnCNN
-from model.func import save_model, eval_model_new_thread, eval_model, Sobel
-import multiprocessing
-
 if __name__ == '__main__':
     # Test Canny
     config = json.load(open("config.json"))
@@ -37,7 +26,6 @@ if __name__ == '__main__':
     LR = config['lr']
     EPOCH = config['epoch']
 
->>>>>>> origin/master
     train_data = Mydataloader.TrainingData()
     test_data = Mydataloader.TestingData()
 

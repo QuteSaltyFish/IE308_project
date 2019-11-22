@@ -50,7 +50,7 @@ if __name__ == "__main__":
         save_model(model, epoch)
         eval_model_new_thread(epoch, 1)
         # LZX pls using the following code instead
-        # multiprocessing.Process(target=eval_model(epoch, '0'), args=(multiprocess_idx,))
-        # multiprocess_idx += 1
+        multiprocessing.Process(target=eval_model(epoch, '0'), args=(multiprocess_idx,))
+        multiprocess_idx += 1
     time_end = time.time()
     print('time cost', time_end-time_start)
