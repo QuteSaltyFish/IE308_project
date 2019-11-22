@@ -52,6 +52,7 @@ class TestingData(t.utils.data.Dataset):
         self.test_root = self.config["Test_Dir"]
         self.test_names = os.listdir(self.test_root)
         self.DEVICE = t.device(self.config["DEVICE"])
+        self.gray = self.config["gray"]
         self.init_transform()
 
     def init_transform(self):
@@ -65,6 +66,8 @@ class TestingData(t.utils.data.Dataset):
 
     def __getitem__(self, index):
         img = Image.open(os.path.join(self.test_root, self.test_names[index]))
+        if self.gray:
+            img = img.convert("L")
         img = self.transform(img)
         return img
 

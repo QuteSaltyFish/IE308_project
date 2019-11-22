@@ -106,3 +106,4 @@ venv.bak/
 # data folder
 data/
 .vscode/
+result/
