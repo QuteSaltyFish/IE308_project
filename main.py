@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     # Test the train_loader
     model = model.train()
-    model = load_model(model, 0)
+    # model = load_model(model, 0)
     for epoch in range(EPOCH):
         for batch_idx, [data, label] in enumerate(train_loader):
             data, label = data.to(DEVICE), label.to(DEVICE)
@@ -52,31 +52,31 @@ if __name__ == "__main__":
     time_end = time.time()
     print('time cost', time_end-time_start)
 
-    # model = model.eval()
-    # with t.no_grad():
-    #     # Test the test_loader
-    #     for batch_idx, [data, label] in enumerate(train_loader):
-    #         data = data.to(DEVICE)
-    #         out = model(data)
-    #         # out = out + data
-    #         # monitor the upper and lower boundary of output
-    #         out_max = t.max(out)
-    #         out_min = t.min(out)
-    #         out = (out - out_min) / (out_max - out_min)
-    #         tv.transforms.ToPILImage()(out[0].squeeze().cpu()).save('result/output.jpg')
-    #         tv.transforms.ToPILImage()(data[0].squeeze().cpu()).save('result/input.jpg')
-    #         print(data.shape, data.device)
-    #
-    # model = model.eval()
-    # with t.no_grad():
-    #     # Test the test_loader
-    #     for batch_idx, data in enumerate(test_loader):
-    #         data = data.to(DEVICE)
-    #         out = model(data)
-    #         # monitor the upper and lower boundary of output
-    #         out_max = t.max(out)
-    #         out_min = t.min(out)
-    #         out = (out - out_min) / (out_max - out_min)
-    #         tv.transforms.ToPILImage()(out.squeeze().cpu()).save('result/test_output.jpg')
-    #         tv.transforms.ToPILImage()(data.squeeze().cpu()).save('result/test_input.jpg')
-    #         print(data.shape, data.device)
+    model = model.eval()
+    with t.no_grad():
+        # Test the test_loader
+        for batch_idx, [data, label] in enumerate(train_loader):
+            data = data.to(DEVICE)
+            out = model(data)
+            # out = out + data
+            # monitor the upper and lower boundary of output
+            out_max = t.max(out)
+            out_min = t.min(out)
+            out = (out - out_min) / (out_max - out_min)
+            tv.transforms.ToPILImage()(out[0].squeeze().cpu()).save('result/output.jpg')
+            tv.transforms.ToPILImage()(data[0].squeeze().cpu()).save('result/input.jpg')
+            print(data.shape, data.device)
+
+    model = model.eval()
+    with t.no_grad():
+        # Test the test_loader
+        for batch_idx, data in enumerate(test_loader):
+            data = data.to(DEVICE)
+            out = model(data)
+            # monitor the upper and lower boundary of output
+            out_max = t.max(out)
+            out_min = t.min(out)
+            out = (out - out_min) / (out_max - out_min)
+            tv.transforms.ToPILImage()(out.squeeze().cpu()).save('result/test_output.jpg')
+            tv.transforms.ToPILImage()(data.squeeze().cpu()).save('result/test_input.jpg')
+            print(data.shape, data.device)
