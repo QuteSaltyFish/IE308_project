@@ -23,12 +23,15 @@ def load_model(model, epoch):
 
 
 def eval_model_new_thread(epoch, gpu):
+    config = json.load(open("config.json"))
     path = 'result/nohup_result'
     if not os.path.exists(path):
         os.makedirs(path)
-    python_path = '/home/wangmingke/anaconda3/envs/pytorch/bin/python'
+    python_path = config['python_path']
     os.system('nohup {} -u test_eval.py --epoch={} --gpu={} > {} 2>&1 &'.format(python_path, epoch, gpu,
                                                                                 path + '/{}.out'.format(epoch)))
+    os.system('nohup {} -u train_eval.py --epoch={} --gpu={} > {} 2>&1 &'.format(python_path, epoch, gpu,
+                                                                                 path + '/{}.out'.format(epoch)))
 
 
 def eval_model(epoch, gpu='0'):
@@ -83,6 +86,30 @@ def eval_model(epoch, gpu='0'):
             OUTPUT = t.cat([data, out], dim=3)
             tv.transforms.ToPILImage()(OUTPUT.squeeze().cpu()).save(DIR + '/idx_{}.jpg'.format(batch_idx))
 
+def Sobel(data, DEVICE='cuda'):
+    Gx = t.tensor([
+        [-1.0, 0, 1],
+        [-2, 0, 2],
+        [-1, 0, 1]
+    ]).to(DEVICE)
+    Gy = t.tensor([
+        [1.0, 2, 1],
+        [0, 0, 0],
+        [-1, -2, -1]
+    ]).to(DEVICE)
 
+    data = t.nn.ZeroPad2d(1)(data)
+
+    kernal_size = 3
+    output = t.zeros([data.shape[0], data.shape[1],data.shape[2] - kernal_size + 1, data.shape[3] - kernal_size + 1],
+                     dtype=t.float, device=DEVICE)
+    for batch_size in range(output.shape[0]):
+        for k in range(output.shape[1]):
+            for i in range(0, output.shape[2] - 1):
+                for j in range(0, output.shape[3] - 1):
+                    # print(data[k,i-1:i+1,j-1:j+1])
+                    output[batch_size, k, i, j] = t.abs(t.sum(Gx * data[batch_size, k, i:i + kernal_size, j:j + kernal_size])) + t.abs(
+                        t.sum(Gy * data[batch_size, k, i:i + kernal_size, j:j + kernal_size]))
+    return output
 if __name__ == '__main__':
-    eval_model_new_thread(0)
+    eval_model_new_thread(0 ,1)

@@ -3,12 +3,12 @@ import time
 
 import torch as t
 import torch.utils.data.dataloader as DataLoader
+import torchvision as tv
 import multiprocessing
 
 from model import Mydataloader
 from model.DnCnn import DnCNN
-from model.myNetwork import MyCNN
-from model.func import save_model, eval_model_new_thread, eval_model
+from model.func import save_model, eval_model_new_thread, eval_model, Sobel
 
 if __name__ == "__main__":
     time_start = time.time()
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     test_loader = DataLoader.DataLoader(
         test_data, batch_size=1, shuffle=False, num_workers=config["num_workers"])
 
-    model = MyCNN(n_channels=8).to(DEVICE)
+    model = DnCNN(n_channels=8).to(DEVICE)
 
     # Multi GPU setting
     # model = t.nn.DataParallel(model,device_ids=[0,1])
@@ -41,16 +41,7 @@ if __name__ == "__main__":
     for epoch in range(EPOCH):
         for batch_idx, [data, label] in enumerate(train_loader):
             data, label = data.to(DEVICE), label.to(DEVICE)
-            out = model(data)
-            loss = criterian(out, label)
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-        print(loss)
-        save_model(model, epoch)
-        # eval_model_new_thread(epoch, 1)
-        # LZX pls using the following code instead
-        multiprocessing.Process(target=eval_model(epoch, '0'), args=(multiprocess_idx,))
-        multiprocess_idx += 1
-    time_end = time.time()
-    print('time cost', time_end-time_start)
+            out = t.cat([data, data], dim=1)
+            print(out.shape)
+            # out = Sobel(data, DEVICE)
+            # tv.transforms.ToPILImage()(out.cpu().squeeze()).save('Sobel.jpg')
