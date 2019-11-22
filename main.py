@@ -3,10 +3,11 @@ import time
 
 import torch as t
 import torch.utils.data.dataloader as DataLoader
+import multiprocessing
 
 from model import Mydataloader
 from model.DnCnn import DnCNN
-from model.func import save_model, eval_model_new_thread
+from model.func import save_model, eval_model_new_thread, eval_model
 
 if __name__ == "__main__":
     time_start = time.time()
@@ -47,8 +48,9 @@ if __name__ == "__main__":
         print(loss)
         save_model(model, epoch)
 
-        eval_model_new_thread(epoch, 1)
+        # eval_model_new_thread(epoch, 1)
         # LZX pls using the following code instead
-        # eval_model_new_thread(epoch, 0)
+        multiprocessing.Process(target=eval_model(epoch, '0'), args=(multiprocess_idx,))
+        multiprocess_idx += 1
     time_end = time.time()
     print('time cost', time_end-time_start)

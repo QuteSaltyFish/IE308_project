@@ -5,10 +5,8 @@ import torch as t
 import torch.utils.data.dataloader as DataLoader
 import torchvision as tv
 
-#from model import Mydataloader
-#from model.DnCnn import DnCNN
-import Mydataloader
-import DnCnn
+from model import Mydataloader
+from model.DnCnn import DnCNN
 
 
 def save_model(model, epoch):

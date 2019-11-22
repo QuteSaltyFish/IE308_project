@@ -14,5 +14,7 @@
   "lr": 1e-3,
   "batch_size": 1,
   "gray": false ,
-  "python_path": "C:\\Users\\ZXLi\\Anaconda3\\envs\\pytorch\\python"
+  "Commment:": "LZX pls use: C:\\Users\\ZXLi\\Anaconda3\\envs\\pytorch\\python",
+  "Commment_:": "WMK pls use: /home/wangmingke/anaconda3/envs/pytorch/bin/python",
+  "python_path": "/home/wangmingke/anaconda3/envs/pytorch/bin/python"
 }
