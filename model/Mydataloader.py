@@ -38,7 +38,6 @@ class TrainingData(t.utils.data.Dataset):
             img = img.convert("L")
             label = label.convert("L")
         img, label = self.transform(img), self.transform(label)
-        label = img-label
         return img, label
 
     def __len__(self):
@@ -78,9 +77,7 @@ class TestingData(t.utils.data.Dataset):
 if __name__ == "__main__":
     train_data = TrainingData()
     test_data = TestingData()
-    img, label = train_data[1]
-    print(img.shape, img.device)
-    img = test_data[1]
-    print(img.shape, img.device)
-    print(len(test_data))
-    tv.transforms.ToPILImage()(label).show()
+    for i in range(len(train_data)):
+        img, label = train_data[i]
+        tv.transforms.ToPILImage()(img).save('result/input.jpg')
+        tv.transforms.ToPILImage()(label).save('result/test.jpg')
