@@ -30,6 +30,8 @@ def eval_model_new_thread(epoch, gpu):
     python_path = config['python_path']
     os.system('nohup {} -u test_eval.py --epoch={} --gpu={} > {} 2>&1 &'.format(python_path, epoch, gpu,
                                                                                 path + '/{}.out'.format(epoch)))
+    os.system('nohup {} -u train_eval.py --epoch={} --gpu={} > {} 2>&1 &'.format(python_path, epoch, gpu,
+                                                                                 path + '/{}.out'.format(epoch)))
 
 
 def eval_model(epoch, gpu='0'):
