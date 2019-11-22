@@ -55,9 +55,12 @@ if __name__ == "__main__":
         for batch_idx, [data, label] in enumerate(train_loader):
             data = data.to(DEVICE)
             out = model(data)
-            out = out + data
-            tv.transforms.ToPILImage()(out[0].squeeze().cpu()).show()
-            tv.transforms.ToPILImage()(data[0].squeeze().cpu()).show()
+            # out = out + data
+            out_max = t.max(out)
+            out_min = t.min(out)
+            out = (out - out_min) / (out_max - out_min)
+            tv.transforms.ToPILImage()(out[0].squeeze().cpu()).save('result/output.jpg')
+            tv.transforms.ToPILImage()(data[0].squeeze().cpu()).save('result/input.jpg')
             print(data.shape, data.device)
 
     model = model.eval()
