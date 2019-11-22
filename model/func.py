@@ -5,8 +5,10 @@ import torch as t
 import torch.utils.data.dataloader as DataLoader
 import torchvision as tv
 
-from model import Mydataloader
-from model.DnCnn import DnCNN
+#from model import Mydataloader
+#from model.DnCnn import DnCNN
+import Mydataloader
+import DnCnn
 
 
 def save_model(model, epoch):
@@ -23,10 +25,11 @@ def load_model(model, epoch):
 
 
 def eval_model_new_thread(epoch, gpu):
+    config = json.load(open("config.json"))
     path = 'result/nohup_result'
     if not os.path.exists(path):
         os.makedirs(path)
-    python_path = '/home/wangmingke/anaconda3/envs/pytorch/bin/python'
+    python_path = config['python_path']
     os.system('nohup {} -u test_eval.py --epoch={} --gpu={} > {} 2>&1 &'.format(python_path, epoch, gpu,
                                                                                 path + '/{}.out'.format(epoch)))
 
@@ -85,4 +88,4 @@ def eval_model(epoch, gpu='0'):
 
 
 if __name__ == '__main__':
-    eval_model_new_thread(0)
+    eval_model_new_thread(0 ,1)

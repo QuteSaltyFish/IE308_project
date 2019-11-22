@@ -13,5 +13,6 @@
   "epoch": 200,
   "lr": 1e-3,
   "batch_size": 1,
-  "gray": false
+  "gray": false ,
+  "python_path": "C:\\Users\\ZXLi\\Anaconda3\\envs\\pytorch\\python"
 }
