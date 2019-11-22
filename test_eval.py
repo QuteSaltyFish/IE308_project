@@ -42,6 +42,8 @@ if __name__ == "__main__":
             out_max = t.max(out)
             out_min = t.min(out)
             out = (out - out_min) / (out_max - out_min)
-            tv.transforms.ToPILImage()(out.squeeze().cpu()).save('result/test_output.jpg')
-            tv.transforms.ToPILImage()(data.squeeze().cpu()).save('result/test_input.jpg')
-            print(data.shape, data.device)
+            DIR = 'result/test_result/epoch_{}'.format(args.epoch)
+            if not os.path.exists(DIR):
+                os.makedirs(DIR)
+            OUTPUT = t.cat([data, out], dim=3)
+            tv.transforms.ToPILImage()(OUTPUT.squeeze().cpu()).save(DIR + '/idx_{}.jpg'.format(batch_idx))
