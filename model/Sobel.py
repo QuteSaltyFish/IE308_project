@@ -7,7 +7,8 @@ import torchvision as tv
 import multiprocessing
 from model import Mydataloader
 from model.DnCnn import DnCNN
-from model.func import save_model, eval_model_new_thread, eval_model, Sobel
+from model import func
+
 import torch.nn.functional as F
 
 
