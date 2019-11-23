@@ -8,7 +8,9 @@
 
 # Done list
 - Finish dataloader and test it.
-- Denoise Net tested, not work
+- Denoise Net tested, but not good
+- add Sobel Module to enable the network to learn from the edges.
 
 # Test list
 - use unet to detect the watermark
+- use corrupted pic with random line to train the network to identify the line.

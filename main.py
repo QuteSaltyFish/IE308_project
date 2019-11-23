@@ -48,7 +48,7 @@ if __name__ == "__main__":
             optimizer.step()
         print(loss)
         save_model(model, epoch)
-        eval_model_new_thread(epoch, 1)
+        # eval_model_new_thread(epoch, 1)
         # LZX pls using the following code instead
         multiprocessing.Process(target=eval_model(epoch, '0'), args=(multiprocess_idx,))
         multiprocess_idx += 1

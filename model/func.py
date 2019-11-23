@@ -6,7 +6,7 @@ import torch.utils.data.dataloader as DataLoader
 import torchvision as tv
 
 from model import Mydataloader
-from model.DnCnn import DnCNN
+from model import myNetwork
 
 
 def save_model(model, epoch):
@@ -44,12 +44,14 @@ def eval_model(epoch, gpu='0'):
     # os.environ["CUDA_VISIBLE_DEVICES"] = gpu
 
     train_data = Mydataloader.TrainingData()
-    train_loader = DataLoader.DataLoader(train_data, batch_size=1, shuffle=False, num_workers=config["num_workers"])
+    train_loader = DataLoader.DataLoader(
+        train_data, batch_size=1, shuffle=False, num_workers=config["num_workers"])
     test_data = Mydataloader.TestingData()
-    test_loader = DataLoader.DataLoader(test_data, batch_size=1, shuffle=False, num_workers=config["num_workers"])
+    test_loader = DataLoader.DataLoader(
+        test_data, batch_size=1, shuffle=False, num_workers=config["num_workers"])
 
     criterian = t.nn.MSELoss()
-    model = DnCNN(n_channels=8).to(DEVICE)
+    model = myNetwork.MyCNN(n_channels=8).to(DEVICE)
     # Test the train_loader
     model = load_model(model, epoch)
     model = model.eval()
@@ -67,7 +69,8 @@ def eval_model(epoch, gpu='0'):
             if not os.path.exists(DIR):
                 os.makedirs(DIR)
             OUTPUT = t.cat([data, out], dim=3)
-            tv.transforms.ToPILImage()(OUTPUT.squeeze().cpu()).save(DIR + '/idx_{}.jpg'.format(batch_idx))
+            tv.transforms.ToPILImage()(OUTPUT.squeeze().cpu()).save(
+                DIR + '/idx_{}.jpg'.format(batch_idx))
 
     with t.no_grad():
         # Test the test_loader
@@ -82,7 +85,8 @@ def eval_model(epoch, gpu='0'):
             if not os.path.exists(DIR):
                 os.makedirs(DIR)
             OUTPUT = t.cat([data, out], dim=3)
-            tv.transforms.ToPILImage()(OUTPUT.squeeze().cpu()).save(DIR + '/idx_{}.jpg'.format(batch_idx))
+            tv.transforms.ToPILImage()(OUTPUT.squeeze().cpu()).save(
+                DIR + '/idx_{}.jpg'.format(batch_idx))
 
 
 def canny(img, TL=0.1, TH=0.3, DEVICE='cuda'):
@@ -112,7 +116,8 @@ def canny(img, TL=0.1, TH=0.3, DEVICE='cuda'):
     for batch in range(Batch_size):
         for i in range(W - 5):
             for j in range(H - 5):
-                new_gray[i, j] = t.sum(gray[batch, i:i + 5, j:j + 5] * gaussian)  # 与高斯矩阵卷积实现滤波
+                new_gray[i, j] = t.sum(
+                    gray[batch, i:i + 5, j:j + 5] * gaussian)  # 与高斯矩阵卷积实现滤波
 
     # plt.imshow(new_gray, cmap="gray")
 
@@ -222,5 +227,7 @@ def Sobel(data, DEVICE='cuda'):
                         t.sum(Gx * data[batch, k, i:i + kernal_size, j:j + kernal_size])) + t.abs(
                         t.sum(Gy * data[batch, k, i:i + kernal_size, j:j + kernal_size]))
     return output
+
+
 if __name__ == '__main__':
-    eval_model_new_thread(0 ,1)
+    eval_model_new_thread(0, 1)
