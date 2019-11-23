@@ -5,12 +5,14 @@ import torch as t
 import torch.utils.data.dataloader as DataLoader
 import torchvision as tv
 import multiprocessing
-
 from model import Mydataloader
 from model.DnCnn import DnCNN
-from model.func import save_model, eval_model_new_thread, eval_model, Sobel
-
+from model.func import save_model, eval_model_new_thread, eval_model
+from model.Sobel import Sobel
+import torch.nn.functional as F
 if __name__ == "__main__":
+
+    Filter = Sobel()
     time_start = time.time()
 
     config = json.load(open("config.json"))
@@ -43,5 +45,20 @@ if __name__ == "__main__":
             data, label = data.to(DEVICE), label.to(DEVICE)
             out = t.cat([data, data], dim=1)
             print(out.shape)
+            Gx = t.tensor([
+                [-1.0, 0, 1],
+                [-2, 0, 2],
+                [-1, 0, 1]
+            ], device=DEVICE)
+            Gx = t.stack([Gx,Gx,Gx], dim=0)
+            Gy = t.tensor([
+                [1.0, 2, 1],
+                [0, 0, 0],
+                [-1, -2, -1]
+            ], device=DEVICE)
+            x = Filter(data)
+            # x = t.nn.functional.conv2d(data, Gx)
+            print(x.shape)
             # out = Sobel(data, DEVICE)
             # tv.transforms.ToPILImage()(out.cpu().squeeze()).save('Sobel.jpg')
+    
