@@ -98,7 +98,7 @@ def canny(img, TL=0.1, TH=0.3, DEVICE='cuda'):
         for j in range(5):
             gaussian[i, j] = np.exp(-1 / 2 * ((i - 3) ** 2 / sigma1 ** 2
                                               + ((j - 3) ** 2 / sigma2 ** 2))) / (
-                                     2 * np.pi * sigma1 * sigma2)
+                2 * np.pi * sigma1 * sigma2)
             sum = sum + gaussian[i, j]
 
     gaussian = gaussian / sum
