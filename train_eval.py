@@ -8,7 +8,7 @@ import torch.utils.data.dataloader as DataLoader
 import torchvision as tv
 
 from model import Mydataloader
-from model.DnCnn import DnCNN
+from model.myNetwork import MyCNN
 from model.func import load_model
 
 if __name__ == "__main__":
@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--epoch", default=1, type=int, help="The epoch to be tested")
-    parser.add_argument("--gpu", default='1s', type=str, help="choose which DEVICE U want to use")
+    parser.add_argument("--gpu", default='1', type=str, help="choose which DEVICE U want to use")
     args = parser.parse_args()
 
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     train_loader = DataLoader.DataLoader(train_data, batch_size=1, shuffle=False, num_workers=config["num_workers"])
 
     criterian = t.nn.MSELoss()
-    model = DnCNN(n_channels=8).to(DEVICE)
+    model = MyCNN(n_channels=8).to(DEVICE)
     # Test the train_loader
     model = load_model(model, args.epoch)
     model = model.eval()

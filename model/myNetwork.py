@@ -25,7 +25,7 @@ class MyCNN(nn.Module):
         padding = 1
         layers = []
 
-        layers.append(nn.Conv2d(in_channels=image_channels * 2, out_channels=n_channels,
+        layers.append(nn.Conv2d(in_channels=image_channels * 4, out_channels=n_channels,
                                 kernel_size=kernel_size, padding=padding, bias=True))
         layers.append(nn.ReLU(inplace=True))
         for _ in range(depth - 2):
@@ -39,10 +39,22 @@ class MyCNN(nn.Module):
         self.dncnn = nn.Sequential(*layers)
         self._initialize_weights()
 
+    def fft2pic(self, data):
+        frequency = torch.zeros_like(data)
+        frequency = torch.stack([data, frequency], dim=0)
+        frequency = frequency.permute(1,2,3,4,0)
+        frequency = torch.fft(frequency,2)
+        Re = frequency[...,0]
+        Im = frequency[...,1]
+        return Re, Im
+
     def forward(self, x):
         y = x
         addional = self.Sobel(x)
-        x = torch.cat([x, addional], dim=1)
+        Re, Im = self.fft2pic(x)
+        # frequency = torch.functional.stft(x,2)
+
+        x = torch.cat([x, addional, Re, Im], dim=1)
         out = self.dncnn(x)
         return y - out
 
@@ -60,5 +72,5 @@ class MyCNN(nn.Module):
 
 if __name__ == "__main__":
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = DnCNN().to(device)
+    model = MyCNN().to(device)
     summary(model, (3, 256, 256))

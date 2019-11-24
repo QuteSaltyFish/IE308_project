@@ -50,7 +50,7 @@ if __name__ == "__main__":
                 [-2, 0, 2],
                 [-1, 0, 1]
             ], device=DEVICE)
-            Gx = t.stack([Gx,Gx,Gx], dim=0)
+            Gx = t.stack([Gx, Gx, Gx], dim=0)
             Gy = t.tensor([
                 [1.0, 2, 1],
                 [0, 0, 0],
@@ -61,4 +61,3 @@ if __name__ == "__main__":
             print(x.shape)
             # out = Sobel(data, DEVICE)
             # tv.transforms.ToPILImage()(out.cpu().squeeze()).save('Sobel.jpg')
-    

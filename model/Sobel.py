@@ -7,8 +7,11 @@ import torchvision as tv
 import multiprocessing
 from model import Mydataloader
 from model.DnCnn import DnCNN
-from model.func import save_model, eval_model_new_thread, eval_model, Sobel
+from model import func
+
 import torch.nn.functional as F
+
+
 class Sobel(t.nn.Module):
     def __init__(self):
         super().__init__()
@@ -24,7 +27,7 @@ class Sobel(t.nn.Module):
             [0, 0, 0],
             [-1, -2, -1]
         ], device=self.DEVICE).unsqueeze(0).unsqueeze(0)
-        
+
         self.Gx = t.nn.Parameter(data=Gx, requires_grad=False)
         self.Gy = t.nn.Parameter(data=Gy, requires_grad=False)
 
@@ -32,8 +35,8 @@ class Sobel(t.nn.Module):
         x1 = x[:, 0]
         x2 = x[:, 1]
         x3 = x[:, 2]
-        x1 = F.conv2d(x1.unsqueeze(1), self.Gx, padding=1)+F.conv2d(x1.unsqueeze(1), self.Gy, padding=1)
-        x2 = F.conv2d(x2.unsqueeze(1), self.Gx, padding=1)+F.conv2d(x2.unsqueeze(1), self.Gy, padding=1)
-        x3 = F.conv2d(x3.unsqueeze(1), self.Gx, padding=1)+F.conv2d(x3.unsqueeze(1), self.Gy, padding=1)
+        x1 = F.conv2d(x1.unsqueeze(1), self.Gx, padding=1) + F.conv2d(x1.unsqueeze(1), self.Gy, padding=1)
+        x2 = F.conv2d(x2.unsqueeze(1), self.Gx, padding=1) + F.conv2d(x2.unsqueeze(1), self.Gy, padding=1)
+        x3 = F.conv2d(x3.unsqueeze(1), self.Gx, padding=1) + F.conv2d(x3.unsqueeze(1), self.Gy, padding=1)
         x = t.cat([x1, x2, x3], dim=1)
         return x

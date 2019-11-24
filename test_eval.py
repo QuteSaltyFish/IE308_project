@@ -8,7 +8,7 @@ import torch.utils.data.dataloader as DataLoader
 import torchvision as tv
 
 from model import Mydataloader
-from model.DnCnn import DnCNN
+from model.myNetwork import MyCNN
 from model.func import load_model
 
 if __name__ == "__main__":
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     test_loader = DataLoader.DataLoader(test_data, batch_size=1, shuffle=False, num_workers=config["num_workers"])
 
     criterian = t.nn.MSELoss()
-    model = DnCNN(n_channels=8).to(DEVICE)
+    model = MyCNN(n_channels=8).to(DEVICE)
     # Test the train_loader
     model = load_model(model, args.epoch)
     model = model.eval()
@@ -38,6 +38,9 @@ if __name__ == "__main__":
         for batch_idx, data in enumerate(test_loader):
             data = data.to(DEVICE)
             out = model(data)
+            for _ in range(3):
+                out = model(out)
+            
             # monitor the upper and lower boundary of output
             out_max = t.max(out)
             out_min = t.min(out)
@@ -46,4 +49,5 @@ if __name__ == "__main__":
             if not os.path.exists(DIR):
                 os.makedirs(DIR)
             OUTPUT = t.cat([data, out], dim=3)
-            tv.transforms.ToPILImage()(OUTPUT.squeeze().cpu()).save(DIR + '/idx_{}.jpg'.format(batch_idx))
+            tv.transforms.ToPILImage()(OUTPUT.squeeze().cpu()).save('good_output.jpg') 
+            # tv.transforms.ToPILImage()(OUTPUT.squeeze().cpu()).save(DIR + '/idx_{}.jpg'.format(batch_idx))
