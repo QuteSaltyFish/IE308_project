@@ -30,7 +30,6 @@ def find_marker(name):
     data[data>=TH] = 255
     Image.fromarray(data)
 
-
     data = tv.transforms.ToTensor()(data)
     mor = morphology(data, 'cpu')
     kernel = t.ones(7,7)
