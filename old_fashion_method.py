@@ -11,10 +11,10 @@ from model.morphology import morphology
 import sys
 import cv2
 import numpy as np
-from Inpainting import fillfront
-from Inpainting import priorities
-from Inpainting import bestpatch
-from Inpainting import update
+from model import fillfront
+from model import priorities
+from model import bestpatch
+from model import update
 
 def find_marker(name):
     original_img = cv2.imread(name)
