@@ -12,7 +12,7 @@ from model.func import save_model, eval_model_new_thread, eval_model
 
 if __name__ == "__main__":
     time_start = time.time()
-
+ 
     config = json.load(open("config.json"))
     # os.environ["CUDA_VISIBLE_DEVICES"] = config["GPU"]
     DEVICE = t.device(config["DEVICE"])
