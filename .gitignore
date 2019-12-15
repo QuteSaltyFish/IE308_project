@@ -109,3 +109,4 @@ data/
 result/
 saved_model/
 nohup.out
+/.idea/

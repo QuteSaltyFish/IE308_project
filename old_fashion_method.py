@@ -36,8 +36,8 @@ def find_marker(name):
     closing = mor.Bi_Closing(kernel, save_img=False)
     noise = closing - data
     mor = morphology(noise, 'cpu')
-    kernel = t.ones(3,3)/255
-    mask = mor.b(kernel, save_img=False)
+    kernel = t.ones(3, 3) / 255
+    mask = mor.Bi_Opening(kernel, save_img=False)
 
     mor = morphology(mask, 'cpu')
     kernel = t.ones(3,3)

@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bcdff7f3-034f-484a-a4f7-46daf45983b7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/model/func.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/func.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IE308_project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IE308_project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +24,37 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="IE308_project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -46,13 +79,23 @@
       <option name="presentableId" value="Default" />
       <updated>1576077009896</updated>
       <workItem from="1576077016330" duration="5000" />
+      <workItem from="1576134601593" duration="605000" />
+      <workItem from="1576135221893" duration="197000" />
+      <workItem from="1576135464225" duration="1826000" />
     </task>
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="645" y="357" key="com.intellij.ide.util.TipDialog" timestamp="1576077018086">
+    <state x="176" y="221" width="986" height="727" key="SettingsEditor" timestamp="1576135419016">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="645" y="357" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1576077018086" />
+    <state x="176" y="221" width="986" height="727" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1576135419016" />
+    <state x="645" y="357" key="com.intellij.ide.util.TipDialog" timestamp="1576135464450">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="645" y="357" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1576135464450" />
   </component>
 </project>
