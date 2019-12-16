@@ -145,7 +145,7 @@ def inplant(name):
 
             # on enregistre a chaque fois pour voir l'avancée
         cv2.imwrite('result/' + name + "_resultat.jpg", im)
-        cv2.imwrite('result/process/' + name + "_" + k + ".jpg", im)
+        cv2.imwrite('result/process/' + name + "_" + str(k) + ".jpg", im)
 
 if __name__ == "__main__":
     name = 'D:/IE308_project/data/train_noise/SK BR 1102 XU LI YING F70Y_20160817_141835_image.jpg'
