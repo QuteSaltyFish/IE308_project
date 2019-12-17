@@ -15,6 +15,7 @@ from model import fillfront
 from model import priorities
 from model import bestpatch
 from model import update
+from model import PSNR
 
 def find_marker(name):
     original_img = cv2.imread(name)
@@ -148,8 +149,9 @@ def inplant(name):
         cv2.imwrite('result/process/' + name + "_" + str(k) + ".jpg", im)
 
 if __name__ == "__main__":
-    name = 'D:/IE308_project/data/train_noise/SK BR 1102 XU LI YING F70Y_20160817_141835_image.jpg'
+    name = 'D:/IE308_project/data/train_noise/SK BR 1476 YUAN JIAN PING F63Y_20161122_135357_image.jpg'
     find_marker(name)
     inplant(name)
+    PSNR()
 
 # %%
