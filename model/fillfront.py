@@ -7,7 +7,7 @@ kerx = np.array([[ 0.,  0.,  0.], [-1.,  0.,  1.], [ 0.,  0.,  0.]])
 kery = np.array([[ 0., -1.,  0.], [ 0.,  0.,  0.], [ 0.,  1.,  0.]])
 
 def IdentifyTheFillFront(masque, source):
-    """ Identifie le front de remplissage """
+    """ Identifies the filling front """
     dOmega = []
     normale = []
     lap = cv2.filter2D(masque, cv2.CV_32F, Lap)

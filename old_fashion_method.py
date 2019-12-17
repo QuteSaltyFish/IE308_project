@@ -54,17 +54,17 @@ def inplant(name):
     taillecadre = 3
     image = cv2.imread(cheminimage,1)
     masque = cv2.imread(cheminmasque,0)
-    xsize, ysize, channels = image.shape # meme taille pour filtre et image
+    xsize, ysize, channels = image.shape    # samesize for filter and image
 
-    #on verifie les tailles
+    #then we check the sizes
 
     x, y = masque.shape
 
     if x != xsize or y != ysize:
-        print("La taille de l'image et du filtre doivent être les même")
+        print("the image size and the filer size must be the same!")
         exit()
 
-    tau = 170 #valeur pour séparer les valeurs du masque
+    tau = 170   #value to separate mask values
     omega=[]
     confiance = np.copy(masque)
     masque = np.copy(masque)
@@ -97,8 +97,8 @@ def inplant(name):
     kery = np.array([[ 0., -1.,  0.], [ 0.,  0.,  0.], [ 0.,  1.,  0.]])
 
 
-    bool = True #pour le while
-    print("Algorithme en fonctionnement")
+    bool = True #flag for the while loop
+    print("Algorithm in operation")
     k=0
 
     niveau_de_gris = cv2.cvtColor(im, cv2.COLOR_RGB2GRAY)
@@ -136,14 +136,14 @@ def inplant(name):
 
         im, gradientX, gradientY, confiance, source, masque = update.update(im, gradientX, gradientY, confiance, source, masque, dOmega, pp, list, index, taillecadre)
 
-            # on verifie si on a fini
+        # check if we are finished
         bool = False
         for x in range(xsize):
             for y in range(ysize):
                 if source[x, y] == 0:
                     bool = True
 
-            # on enregistre a chaque fois pour voir l'avancée
+        # we save the process in folder process and the final pic
         cv2.imwrite('result/' + name + "_resultat.jpg", im)
         cv2.imwrite('result/process/' + name + "_" + str(k) + ".jpg", im)
 
