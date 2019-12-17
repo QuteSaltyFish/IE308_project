@@ -5,7 +5,8 @@ import numpy as np
 import torchvision as tv
 from PIL import Image
 from math import exp
-
+import cv2
+import skimage
 def gaussian(window_size, sigma):
     gauss = torch.Tensor([exp(-(x - window_size//2)**2/float(2*sigma**2)) for x in range(window_size)])
     return gauss/gauss.sum()
@@ -47,6 +48,8 @@ class SSIM(torch.nn.Module):
         self.window = create_window(window_size, self.channel)
 
     def forward(self, img1, img2):
+        img1 = tv.transforms.ToTensor()(img1).unsqueeze(0) *255
+        img2 = tv.transforms.ToTensor()(img2).unsqueeze(0) *255
         (_, channel, _, _) = img1.size()
 
         if channel == self.channel and self.window.data.type() == img1.data.type():
@@ -75,7 +78,11 @@ def ssim(img1, img2, window_size = 11, size_average = True):
     return _ssim(img1, img2, window, window_size, channel, size_average)
 
 if __name__ == "__main__":
-    img1 = tv.transforms.ToTensor()(Image.open("data/train_noise/BR 176 YUAN XIA F39Y_20160113_133403_image.jpg")).unsqueeze(0)
-    img2 = tv.transforms.ToTensor()(Image.open("data/train_origin/BR 176 YUAN XIA F39Y_20160113_133403_image.jpg")).unsqueeze(0)
-    ssim = SSIM()
-    print(ssim(img1, img2))
+    name = 'BR 176 YUAN XIA F39Y_20160113_133403_image'
+    img1 = cv2.imread('data/train_origin/' + name + '.jpg')
+    img2 = cv2.imread('data/train_noise/' + name + '.jpg')
+
+    print(skimage.measure.compare_psnr(img1, img2, 255))
+    print(skimage.measure.compare_ssim(img1, img2, multichannel=True))
+    # ssim = SSIM()
+    # print(ssim(img1, img2))
