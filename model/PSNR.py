@@ -12,7 +12,7 @@ def PSNR(img1, img2):
 if __name__ == "__main__":
     
     name = 'BR 176 YUAN XIA F39Y_20160113_133403_image.jpg'
-    oripic = cv2.imread('data/train_origin/'+name,0)
-    result = cv2.imread('data/train_noise/'+name,0)
+    oripic = cv2.imread('F:/compare/origin_2.jpg',0)
+    result = cv2.imread('F:/compare/SK BR938 SHI SI MING F31Y_20160715_111151_image_resultat.jpg',0)
     psnr = PSNR(oripic, result)
     print ("The PSNR between the two img of the two is %f" % psnr)
