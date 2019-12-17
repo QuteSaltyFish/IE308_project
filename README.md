@@ -20,6 +20,6 @@ The code had been run on i7-9700 with rtx-2070-super and i7 with 1080Ti, and is 
 
 *Some results is listed:*
 
-![1st](/Users/arcadia/Documents/IE308_project/report/pictures/2nd.png)
+![1st](report/pictures/2nd.png)
 
-![1st](/Users/arcadia/Documents/IE308_project/report/pictures/1st.png)
+![1st](report/pictures/1st.png)
