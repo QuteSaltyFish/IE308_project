@@ -10,7 +10,7 @@ def PSNR(img1, img2):
     psnr = 10*math.log10(float(255.**2)/RMSE)
     return psnr
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     # img1 = cv2.imread("", cv2.IMREAD_GRAYSCALE)
     # img2 = cv2.imread("", cv2.IMREAD_GRAYSCALE)
     # psnr = PSNR(img1, img2)

@@ -15,12 +15,15 @@ from model import fillfront
 from model import priorities
 from model import bestpatch
 from model import update
-from model import PSNR
+from model.PSNR import PSNR
 
 def find_marker(name):
-    original_img = cv2.imread(name)
+    original_img = cv2.imread('data/train_noise/' + name +'.jpg')
+    noisefree = cv2.imread('data/train_origin/' + name + '.jpg')
     pic = cv2.resize(original_img, (256, 256), interpolation=cv2.INTER_CUBIC)
-    cv2.imwrite('result/origin.jpg', pic)
+    noisefree = cv2.resize(noisefree, (256, 256), interpolation=cv2.INTER_CUBIC)
+    cv2.imwrite('result/noise.jpg', pic)
+    cv2.imwrite('result/origin.jpg', noisefree)
     TH = 100
     hsv=cv2.cvtColor(pic, cv2.COLOR_BGR2HSV)
     r,g,b = hsv[...,0],hsv[...,1],hsv[...,2]
@@ -149,9 +152,14 @@ def inplant(name):
         cv2.imwrite('result/process/' + name + "_" + str(k) + ".jpg", im)
 
 if __name__ == "__main__":
-    name = 'D:/IE308_project/data/train_noise/SK BR 1476 YUAN JIAN PING F63Y_20161122_135357_image.jpg'
+    #name = 'SK BR 1102 XU LI YING F70Y_20160817_141835_image'
+    name = 'SK BR938 SHI SI MING F31Y_20160715_111151_image'
     find_marker(name)
     inplant(name)
-    PSNR()
+    oripic = cv2.imread('result/origin.jpg',0)
+    result = cv2.imread('result/' + name + '_resultat.jpg',0)
+    psnr = PSNR(oripic,result)
+    print ("The PSNR between the two img of the two is %f" % psnr)
+
 
 # %%
