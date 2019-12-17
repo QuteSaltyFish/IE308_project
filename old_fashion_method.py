@@ -155,7 +155,7 @@ if __name__ == "__main__":
     #name = 'SK BR 1102 XU LI YING F70Y_20160817_141835_image'
     name = 'SK BR938 SHI SI MING F31Y_20160715_111151_image'
     find_marker(name)
-    inplant(name)
+    #inplant(name)
     oripic = cv2.imread('result/origin.jpg',0)
     result = cv2.imread('result/' + name + '_resultat.jpg',0)
     psnr = PSNR(oripic,result)

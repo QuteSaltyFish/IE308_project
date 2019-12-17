@@ -75,7 +75,7 @@ def ssim(img1, img2, window_size = 11, size_average = True):
     return _ssim(img1, img2, window, window_size, channel, size_average)
 
 if __name__ == "__main__":
-    img1 = tv.transforms.ToTensor()(Image.open("data/train_noise/BR 176 YUAN XIA F39Y_20160113_133403_image.jpg")).unsqueeze(0)
-    img2 = tv.transforms.ToTensor()(Image.open("data/train_origin/BR 176 YUAN XIA F39Y_20160113_133403_image.jpg")).unsqueeze(0)
+    img1 = tv.transforms.ToTensor()(Image.open("result/origin.jpg")).unsqueeze(0)
+    img2 = tv.transforms.ToTensor()(Image.open("result/SK BR 1102 XU LI YING F70Y_20160817_141835_image_resultat.jpg")).unsqueeze(0)
     ssim = SSIM()
     print(ssim(img1, img2))
