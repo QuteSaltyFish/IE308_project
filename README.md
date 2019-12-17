@@ -18,7 +18,7 @@ The code had been run on i7-9700 with rtx-2070-super and i7 with 1080Ti, and is 
 
 
 
-*Some results is listed:*
+*Some results are listed:*
 
 ![1st](report/pictures/2nd.png)
 
