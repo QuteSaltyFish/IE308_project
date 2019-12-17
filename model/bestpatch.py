@@ -63,8 +63,8 @@ def calculPatch(dOmega, cibleIndex, im, original, masque, taillecadre):
 
 def Patch(im, taillecadre, point):
     """
-    Permet de calculer les deux points extreme du patch
-    Voici le patch avec les 4 points
+    Calculates the two extreme points of the patch
+     Here is the patch with the 4 points
         1 _________ 2
           |        |
           |        |
