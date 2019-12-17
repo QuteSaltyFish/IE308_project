@@ -10,7 +10,7 @@ import torchvision as tv
 from model import Mydataloader
 from model.myNetwork import MyCNN
 from model.func import load_model
-
+import skimage
 if __name__ == "__main__":
     time_start = time.time()
 
@@ -41,5 +41,14 @@ if __name__ == "__main__":
             DIR = 'result/train_result/epoch_{}'.format(args.epoch)
             if not os.path.exists(DIR):
                 os.makedirs(DIR)
+            print("Before the operation:")
+            print("The PSNR between the two img of the two is {}".format(skimage.measure.compare_psnr(255*data.cpu().squeeze().numpy(), 255*label.cpu().squeeze().numpy(), 255)))
+            print("The SSIM between the two img of the two is {}".format(skimage.measure.compare_ssim(255*data.cpu().squeeze().permute(1,2,0).numpy(), 255*label.cpu().squeeze().permute(1,2,0).numpy(), multichannel=True)))
+            print('-'*20)
+            print("After the operation:")
+            print("The PSNR between the two img of the two is {}".format(skimage.measure.compare_psnr(255*out.cpu().squeeze().numpy(), 255*label.cpu().squeeze().numpy(), 255)))
+            print("The SSIM between the two img of the two is {}".format(skimage.measure.compare_ssim(255*out.cpu().squeeze().permute(1,2,0).numpy(), 255*label.cpu().squeeze().permute(1,2,0).numpy(), multichannel=True)))
+            print("\n\n")
+
             OUTPUT = t.cat([data, out], dim=3)
             tv.transforms.ToPILImage()(OUTPUT.squeeze().cpu()).save(DIR + '/idx_{}.jpg'.format(batch_idx))

@@ -10,6 +10,7 @@ from model import myNetwork
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+import skimage
 
 def canny(name):
     img = plt.imread(name)
@@ -178,11 +179,25 @@ def eval_model(epoch, gpu='0'):
     with t.no_grad():
         # Test the test_loader
         for batch_idx, [data, label] in enumerate(train_loader):
-            data = data.to(DEVICE)
+            data, label = data.to(DEVICE), label.to(DEVICE)
             out = model(data)
             DIR = 'result/train_result/epoch_{}'.format(epoch)
             if not os.path.exists(DIR):
                 os.makedirs(DIR)
+            # compute the psnr and ssim of the input and the output 
+            # compare the psnr and ssim 
+
+            # data, out, label = data.cpu().squeeze().permute(1,2,0).numpy(), out.cpu().squeeze().permute(1,2,0).numpy(), label.cpu().squeeze().permute(1,2,0).numpy()
+            # before
+            print("Before the operation:")
+            print("The PSNR between the two img of the two is {}".format(skimage.measure.compare_psnr(255*data.cpu().squeeze().numpy(), 255*label.cpu().squeeze().numpy(), 255)))
+            print("The SSIM between the two img of the two is {}".format(skimage.measure.compare_ssim(255*data.cpu().squeeze().permute(1,2,0).numpy(), 255*label.cpu().squeeze().permute(1,2,0).numpy(), multichannel=True)))
+            print('-'*20)
+            print("After the operation:")
+            print("The PSNR between the two img of the two is {}".format(skimage.measure.compare_psnr(255*out.cpu().squeeze().numpy(), 255*label.cpu().squeeze().numpy(), 255)))
+            print("The SSIM between the two img of the two is {}".format(skimage.measure.compare_ssim(255*out.cpu().squeeze().permute(1,2,0).numpy(), 255*label.cpu().squeeze().permute(1,2,0).numpy(), multichannel=True)))
+            print("\n\n")
+
             OUTPUT = t.cat([data, out], dim=3)
             tv.transforms.ToPILImage()(OUTPUT.squeeze().cpu()).save(
                 DIR + '/idx_{}.jpg'.format(batch_idx))
