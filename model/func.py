@@ -180,10 +180,6 @@ def eval_model(epoch, gpu='0'):
         for batch_idx, [data, label] in enumerate(train_loader):
             data = data.to(DEVICE)
             out = model(data)
-            # monitor the upper and lower boundary of output
-            out_max = t.max(out)
-            out_min = t.min(out)
-            out = (out - out_min) / (out_max - out_min)
             DIR = 'result/train_result/epoch_{}'.format(epoch)
             if not os.path.exists(DIR):
                 os.makedirs(DIR)
@@ -196,10 +192,6 @@ def eval_model(epoch, gpu='0'):
         for batch_idx, data in enumerate(test_loader):
             data = data.to(DEVICE)
             out = model(data)
-            # monitor the upper and lower boundary of output
-            out_max = t.max(out)
-            out_min = t.min(out)
-            out = (out - out_min) / (out_max - out_min)
             DIR = 'result/test_result/epoch_{}'.format(epoch)
             if not os.path.exists(DIR):
                 os.makedirs(DIR)

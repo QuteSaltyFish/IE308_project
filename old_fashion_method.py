@@ -16,7 +16,7 @@ from model import priorities
 from model import bestpatch
 from model import update
 from model.PSNR import PSNR
-
+from model.ssim import SSIM
 def find_marker(name):
     original_img = cv2.imread('data/train_noise/' + name +'.jpg')
     noisefree = cv2.imread('data/train_origin/' + name + '.jpg')
@@ -158,6 +158,10 @@ if __name__ == "__main__":
     #inplant(name)
     oripic = cv2.imread('result/origin.jpg',0)
     result = cv2.imread('result/' + name + '_resultat.jpg',0)
+    img1 = tv.transforms.ToTensor()(Image.open("data/train_noise/BR 176 YUAN XIA F39Y_20160113_133403_image.jpg")).unsqueeze(0)
+    img2 = tv.transforms.ToTensor()(Image.open("data/train_origin/BR 176 YUAN XIA F39Y_20160113_133403_image.jpg")).unsqueeze(0)
+    ssim = SSIM()
+    print(ssim(img1, img2))
     psnr = PSNR(oripic,result)
     print ("The PSNR between the two img of the two is %f" % psnr)
 

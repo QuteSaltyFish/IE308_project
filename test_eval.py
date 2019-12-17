@@ -38,13 +38,6 @@ if __name__ == "__main__":
         for batch_idx, data in enumerate(test_loader):
             data = data.to(DEVICE)
             out = model(data)
-            for _ in range(3):
-                out = model(out)
-            
-            # monitor the upper and lower boundary of output
-            out_max = t.max(out)
-            out_min = t.min(out)
-            out = (out - out_min) / (out_max - out_min)
             DIR = 'result/test_result/epoch_{}'.format(args.epoch)
             if not os.path.exists(DIR):
                 os.makedirs(DIR)

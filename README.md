@@ -3,3 +3,5 @@
 pls put the data in the folder named data.
 
 the config.json can be used to set parameters of the project.
+
+The walkthough code is written in main.ipynb
